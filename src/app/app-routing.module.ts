@@ -1,10 +1,32 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
-const routes: Routes = [];
+// dominio.com/
+const routes: Routes = [
+  {
+    path: 'auth',
+    loadChildren: () => import('./modules/auth/auth.module').then( m => m.AuthModule ),
+  },
+  {
+    path: 'back-office',
+    loadChildren: () => import('./modules/back-office/back-office.module').then( m => m.BackOfficeModule ),
+  },
+  {
+    path: '',
+    redirectTo: 'auth',
+    pathMatch: 'full'
+  },
+  {
+    path: '**',
+    redirectTo: '404',
+  }
+];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes,{ preloadingStrategy: PreloadAllModules })],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
+
+
+
