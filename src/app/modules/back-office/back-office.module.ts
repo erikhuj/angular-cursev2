@@ -7,6 +7,7 @@ import { ListComponent } from './pages/list/list.component';
 import { UpdateUserComponent } from './pages/update-user/update-user.component';
 import { AddContactComponent } from './pages/add-contact/add-contact.component';
 import { UpdateContactComponent } from './pages/update-contact/update-contact.component';
+import { NavBarComponent } from './pages/nav-bar/nav-bar.component';
 
 
 @NgModule({
@@ -15,7 +16,8 @@ import { UpdateContactComponent } from './pages/update-contact/update-contact.co
     ListComponent,
     UpdateUserComponent,
     AddContactComponent,
-    UpdateContactComponent
+    UpdateContactComponent,
+    NavBarComponent
   ],
   imports: [
     CommonModule,
