@@ -36,22 +36,19 @@ export class AddContactComponent {
 
   ngOnInit(): void {
     this.tags= JSON.parse(localStorage.getItem('tags')!);
-    this.addEmail();
   }
 
   get emails(): FormArray {
     return this.contactForm.get('contactEmails') as FormArray;
-  }
-
-  get phones(): FormArray {
-    return this.contactForm.get('contactPhones') as FormArray;
   }
   removeEmail(i: number) {
     this.emails.removeAt(i);
   }
 
   removePhone(i: number) {
-    this.phones.removeAt(i);
+    console.log(i);
+    
+    // this.phones.removeAt(i);
   }
 
   addEmail() {
@@ -71,33 +68,35 @@ export class AddContactComponent {
   }
 
   addPhone(type: string) {
-    let validationsToSend = '';
-    const validatortsToHomePhone = '[0-9]{7}';
-    const validatortsToMovilPhone = '[0-9]{3}-[0-9]{7}';
-    const validatortsToWhatsappPhone = '[a-zA-Z,0-9]{3}-[0-9]{3}-[0-9]{7}';
+    console.log(type);
+    
+  //   let validationsToSend = '';
+  //   const validatortsToHomePhone = '[0-9]{7}';
+  //   const validatortsToMovilPhone = '[0-9]{3}-[0-9]{7}';
+  //   const validatortsToWhatsappPhone = '[a-zA-Z,0-9]{3}-[0-9]{3}-[0-9]{7}';
 
-    switch (type) {
-      case 'home':
-        validationsToSend = validatortsToHomePhone;
-        break;
+  //   switch (type) {
+  //     case 'home':
+  //       validationsToSend = validatortsToHomePhone;
+  //       break;
 
-      case 'movil':
-        validationsToSend = validatortsToMovilPhone;
+  //     case 'movil':
+  //       validationsToSend = validatortsToMovilPhone;
 
-        break;
+  //       break;
 
-      case 'whatsapp':
-        validationsToSend = validatortsToWhatsappPhone;
-        break;
+  //     case 'whatsapp':
+  //       validationsToSend = validatortsToWhatsappPhone;
+  //       break;
 
-      default:
-        break;
-    }
-    this.phones.push(
-      this.fb.group({
-        phone: [, [Validators.required, Validators.pattern(validationsToSend)]],
-      })
-    );
+  //     default:
+  //       break;
+  //   }
+  //   this.phones.push(
+  //     this.fb.group({
+  //       phone: [, [Validators.required, Validators.pattern(validationsToSend)]],
+  //     })
+  //   );
   }
 
   addTags() {
