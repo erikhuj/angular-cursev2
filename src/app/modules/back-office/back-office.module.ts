@@ -10,6 +10,9 @@ import { UpdateContactComponent } from './pages/update-contact/update-contact.co
 import { NavBarComponent } from './pages/nav-bar/nav-bar.component';
 import { AboutComponent } from './pages/about/about.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HomePhoneComponent } from './components/home-phone/home-phone.component';
+import { WhatsAppPhoneComponent } from './components/whats-app-phone/whats-app-phone.component';
+import { MovilPhoneComponent } from './components/movil-phone/movil-phone.component';
 
 
 @NgModule({
@@ -20,7 +23,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     AddContactComponent,
     UpdateContactComponent,
     NavBarComponent,
-    AboutComponent
+    AboutComponent,
+    HomePhoneComponent,
+    WhatsAppPhoneComponent,
+    MovilPhoneComponent
   ],
   imports: [
     CommonModule,
