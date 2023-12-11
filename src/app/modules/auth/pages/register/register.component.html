@@ -1,1 +1,25 @@
-<p>register works!</p>
+
+<form class="container-fluid">
+    
+    <div class="mb-3">
+        <label  class="form-label">{{photo|uppercase}}</label>
+        <input type="email" class="form-control" placeholder="{{photo}}" />
+    </div>
+
+    <div class="mb-3">
+        <label  class="form-label">{{name|uppercase}}</label>
+        <input type="email" class="form-control" placeholder="{{name}}" />
+    </div>
+
+    <div class="mb-3">
+        <label  class="form-label">{{email|uppercase}}</label>
+        <input type="email" class="form-control" placeholder="{{email}}" />
+    </div>
+
+    <div class="mb-3">
+        <label  class="form-label">{{password|uppercase}}</label>
+        <input type="email" class="form-control" placeholder="{{password}}" />
+    </div>
+
+    <a class="btn btn-primary" (click)="resgister()">resgister</a>
+</form>

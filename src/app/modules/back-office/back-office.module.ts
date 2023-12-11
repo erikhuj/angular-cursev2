@@ -8,6 +8,8 @@ import { UpdateUserComponent } from './pages/update-user/update-user.component';
 import { AddContactComponent } from './pages/add-contact/add-contact.component';
 import { UpdateContactComponent } from './pages/update-contact/update-contact.component';
 import { NavBarComponent } from './pages/nav-bar/nav-bar.component';
+import { AboutComponent } from './pages/about/about.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -17,11 +19,14 @@ import { NavBarComponent } from './pages/nav-bar/nav-bar.component';
     UpdateUserComponent,
     AddContactComponent,
     UpdateContactComponent,
-    NavBarComponent
+    NavBarComponent,
+    AboutComponent
   ],
   imports: [
     CommonModule,
-    BackOfficeRoutingModule
+    BackOfficeRoutingModule,
+    ReactiveFormsModule,
+    FormsModule
   ]
 })
 export class BackOfficeModule { }

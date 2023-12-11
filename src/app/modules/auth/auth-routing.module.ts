@@ -12,16 +12,23 @@ const routes: Routes = [
     children: [
       { path: 'login', component: LoginComponent },
       { path: 'register', component: RegisterComponent },
-      { path: '**', redirectTo: 'login' },
+          
     ]
+  },
+  
+  {
+    path: '',
+    redirectTo: 'login',
+    pathMatch:  'prefix',
+  },
+  {
+    path: '**',
+    redirectTo: 'login',
   }
 ];
 
-
-
-
 @NgModule({
-  imports: [ RouterModule.forChild( routes ) ],
-  exports: [ RouterModule ],
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule],
 })
-export class AuthRoutingModule { }
+export class AuthRoutingModule {}
