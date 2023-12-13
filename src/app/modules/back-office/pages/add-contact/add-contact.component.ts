@@ -5,13 +5,14 @@ import { HomePhoneComponent } from '../../components/home-phone/home-phone.compo
 @Component({
   selector: 'app-add-contact',
   templateUrl: './add-contact.component.html',
-  styleUrls: ['./add-contact.component.css']
+  styleUrls: ['./add-contact.component.css'],
 })
 export class AddContactComponent {
   contacs: number = 0;
   @Output() addConcatEvent = new EventEmitter<void>();
 
-  tags: string[] =[];
+  selectedTags: string[] = [];
+  tags: string[] = [];
   loading = false;
   options = 'add-contact'; //PARA USAR EL MISMO FORMULARIO
 
@@ -26,16 +27,14 @@ export class AddContactComponent {
     contactBirthday: [, Validators.required],
     contactAlias: [,],
     contactNotes: [,],
-    contactTags: [this.tags,],
+    contactTags: [this.selectedTags],
     addTags: [,],
     contactPhones: this.fb.array([]),
   });
-  constructor(
-    private fb: FormBuilder,
-  ) {}
+  constructor(private fb: FormBuilder) {}
 
   ngOnInit(): void {
-    this.tags= JSON.parse(localStorage.getItem('tags')!);
+    this.tags = JSON.parse(localStorage.getItem('tags')!);
   }
 
   get emails(): FormArray {
@@ -47,7 +46,7 @@ export class AddContactComponent {
 
   removePhone(i: number) {
     console.log(i);
-    
+
     // this.phones.removeAt(i);
   }
 
@@ -69,58 +68,78 @@ export class AddContactComponent {
 
   addPhone(type: string) {
     console.log(type);
-    
-  //   let validationsToSend = '';
-  //   const validatortsToHomePhone = '[0-9]{7}';
-  //   const validatortsToMovilPhone = '[0-9]{3}-[0-9]{7}';
-  //   const validatortsToWhatsappPhone = '[a-zA-Z,0-9]{3}-[0-9]{3}-[0-9]{7}';
 
-  //   switch (type) {
-  //     case 'home':
-  //       validationsToSend = validatortsToHomePhone;
-  //       break;
+    //   let validationsToSend = '';
+    //   const validatortsToHomePhone = '[0-9]{7}';
+    //   const validatortsToMovilPhone = '[0-9]{3}-[0-9]{7}';
+    //   const validatortsToWhatsappPhone = '[a-zA-Z,0-9]{3}-[0-9]{3}-[0-9]{7}';
 
-  //     case 'movil':
-  //       validationsToSend = validatortsToMovilPhone;
+    //   switch (type) {
+    //     case 'home':
+    //       validationsToSend = validatortsToHomePhone;
+    //       break;
 
-  //       break;
+    //     case 'movil':
+    //       validationsToSend = validatortsToMovilPhone;
 
-  //     case 'whatsapp':
-  //       validationsToSend = validatortsToWhatsappPhone;
-  //       break;
+    //       break;
 
-  //     default:
-  //       break;
-  //   }
-  //   this.phones.push(
-  //     this.fb.group({
-  //       phone: [, [Validators.required, Validators.pattern(validationsToSend)]],
-  //     })
-  //   );
+    //     case 'whatsapp':
+    //       validationsToSend = validatortsToWhatsappPhone;
+    //       break;
+
+    //     default:
+    //       break;
+    //   }
+    //   this.phones.push(
+    //     this.fb.group({
+    //       phone: [, [Validators.required, Validators.pattern(validationsToSend)]],
+    //     })
+    //   );
   }
 
   addTags() {
-    this.tags.push(this.contactForm.get('addTags')?.value);
-    localStorage.setItem('tags', JSON.stringify(this.tags));
-    this.contactForm.value.contactTags = this.tags;
-    
+    console.log(this.tags);
+    console.log(this.selectedTags);
+
+    try {
+      this.tags.push(this.contactForm.get('addTags')?.value);
+      localStorage.setItem('tags', JSON.stringify(this.tags));
+      this.contactForm.value.contactTags = this.tags;
+    } catch (error) {
+      localStorage.setItem('tags', JSON.stringify([]));
+    }
+  }
+
+  addTagsToSend() {
+    console.log(this.selectedTags);
+
+    try {
+      this.selectedTags.push(this.contactForm.get('contactTags')?.value);
+      console.log(this.selectedTags);
+    } catch (error) {
+      console.log(error);
+
+      // localStorage.setItem('tags', JSON.stringify([]));
+    }
   }
 
   removeTag(i: number) {
     this.tags.splice(i, 1);
     localStorage.setItem('tags', JSON.stringify(this.tags));
-    this.tags= JSON.parse(localStorage.getItem('tags')!);
+    this.tags = JSON.parse(localStorage.getItem('tags')!);
     this.contactForm.value.contactTags = this.tags;
   }
 
-
   saveContact() {
+    this.contactForm.value.contactTags=this.selectedTags
+console.log(this.contactForm.value);
+
     this.loading = true;
     console.log(this.validateForm());
     if (this.validateForm() === true) {
-     console.log(this.contactForm.value);
-     console.log('entro');
-     
+      console.log(this.contactForm.value);
+      console.log('entro');
     } else {
       alert('No cumple con los requisitos');
     }
