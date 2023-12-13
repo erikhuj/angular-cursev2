@@ -6,9 +6,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./movil-phone.component.css']
 })
 export class MovilPhoneComponent implements OnInit {
+  phoneIndex!: number;
 
   constructor() { }
 
   ngOnInit(): void {
   }
+
+  deletePhone(){
+    console.log("deletePhone");
+   }
 }

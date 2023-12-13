@@ -73,9 +73,9 @@
             <label>teléfonos (CASA,MOVIL,WHATSAPP)</label>
             <div formArrayName="contactPhones">
                 <div>
-                    <app-home-phone></app-home-phone>
-                    <app-movil-phone></app-movil-phone>
-                    <app-whats-app-phone></app-whats-app-phone>
+                    <app-home-phone      dynamicPhoneInput ></app-home-phone>
+                    <app-movil-phone     dynamicPhoneInput ></app-movil-phone>
+                    <app-whats-app-phone dynamicPhoneInput ></app-whats-app-phone>
                 </div>
 
                 <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"
@@ -108,8 +108,8 @@
                         </div>
                     </div>
                 </div>
-                <a class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                    Add
+                <a class="btn btn-primary m-5"  data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                    AGREGAR 
                 </a>
             </div>
         </div>

@@ -1,6 +1,8 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, ComponentRef, EventEmitter, Output, ViewChild, ViewContainerRef } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HomePhoneComponent } from '../../components/home-phone/home-phone.component';
+import { MovilPhoneComponent } from '../../components/movil-phone/movil-phone.component';
+import { WhatsAppPhoneComponent } from '../../components/whats-app-phone/whats-app-phone.component';
 
 @Component({
   selector: 'app-add-contact',
@@ -8,6 +10,22 @@ import { HomePhoneComponent } from '../../components/home-phone/home-phone.compo
   styleUrls: ['./add-contact.component.css'],
 })
 export class AddContactComponent {
+  @ViewChild(HomePhoneComponent, { read: ViewContainerRef })
+
+  // @ViewChild(MovilPhoneComponent, { read: ViewContainerRef })
+  
+  // @ViewChild(WhatsAppPhoneComponent, { read: ViewContainerRef })
+  // @ViewChild(MovilPhoneComponent, { read: ViewContainerRefMovil })
+  // @ViewChild(WhatsAppPhoneComponent, { read: ViewContainerRefWhats })
+
+  public dynamicHost!: ViewContainerRef;
+  private ViewContainerRefHome!: ComponentRef<HomePhoneComponent>;
+  private ViewContainerRefMovil!: ComponentRef<MovilPhoneComponent>;
+  private ViewContainerRefWhats!: ComponentRef<WhatsAppPhoneComponent>;
+
+  public phoneIndex!: number;
+
+
   contacs: number = 0;
   @Output() addConcatEvent = new EventEmitter<void>();
 
@@ -15,7 +33,7 @@ export class AddContactComponent {
   tags: string[] = [];
   loading = false;
   options = 'add-contact'; //PARA USAR EL MISMO FORMULARIO
-
+  phones =[]
   types = ['home', 'movil', 'whatsapp'];
 
   contactForm: FormGroup = this.fb.group({
@@ -40,13 +58,15 @@ export class AddContactComponent {
   get emails(): FormArray {
     return this.contactForm.get('contactEmails') as FormArray;
   }
+
   removeEmail(i: number) {
     this.emails.removeAt(i);
   }
 
   removePhone(i: number) {
-    console.log(i);
-
+    if (this.ViewContainerRefHome) {
+      this.ViewContainerRefHome.destroy();
+    }
     // this.phones.removeAt(i);
   }
 
@@ -67,8 +87,42 @@ export class AddContactComponent {
   }
 
   addPhone(type: string) {
+
+    switch (type) {
+      case 'home':
+        this.ViewContainerRefHome = this.dynamicHost.createComponent(HomePhoneComponent);
+        const componentIndexH = this.dynamicHost.indexOf(this.ViewContainerRefHome.hostView);
+        (this.ViewContainerRefHome.instance as HomePhoneComponent).phoneIndex =
+          componentIndexH + 2;
+            
+        break;
+    
+        case 'movil':
+          this.ViewContainerRefMovil = this.dynamicHost.createComponent(MovilPhoneComponent);
+          const componentIndexM = this.dynamicHost.indexOf(this.ViewContainerRefHome.hostView);
+          (this.ViewContainerRefMovil.instance as MovilPhoneComponent).phoneIndex =
+            componentIndexM + 2;
+              
+        break;
+    
+        case 'whatsapp':
+
+        this.ViewContainerRefWhats = this.dynamicHost.createComponent(WhatsAppPhoneComponent);
+        const componentIndexW = this.dynamicHost.indexOf(this.ViewContainerRefHome.hostView);
+        (this.ViewContainerRefWhats.instance as WhatsAppPhoneComponent).phoneIndex =
+          componentIndexW + 2;
+
+        break;
+    
+      default:
+        break;
+    }
     console.log(type);
 
+
+    
+// ViewContainerRefMovil
+// ViewContainerRefWhats
     //   let validationsToSend = '';
     //   const validatortsToHomePhone = '[0-9]{7}';
     //   const validatortsToMovilPhone = '[0-9]{3}-[0-9]{7}';

@@ -6,10 +6,15 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./whats-app-phone.component.css']
 })
 export class WhatsAppPhoneComponent implements OnInit {
+  phoneIndex!: number;
 
   constructor() { }
 
   ngOnInit(): void {
   }
+
+  deletePhone(){
+    console.log("deletePhone");
+   }
 }
 
