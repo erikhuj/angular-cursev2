@@ -1,8 +1,6 @@
 import { Component, ComponentRef, EventEmitter, Output, ViewChild, ViewContainerRef } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { HomePhoneComponent } from '../../components/home-phone/home-phone.component';
-import { MovilPhoneComponent } from '../../components/movil-phone/movil-phone.component';
-import { WhatsAppPhoneComponent } from '../../components/whats-app-phone/whats-app-phone.component';
+import { PhoneComponent } from '../../components/home-phone/phone.component';
 
 @Component({
   selector: 'app-add-contact',
@@ -10,18 +8,11 @@ import { WhatsAppPhoneComponent } from '../../components/whats-app-phone/whats-a
   styleUrls: ['./add-contact.component.css'],
 })
 export class AddContactComponent {
-  @ViewChild(HomePhoneComponent, { read: ViewContainerRef })
+  @ViewChild(PhoneComponent, { read: ViewContainerRef })
 
-  // @ViewChild(MovilPhoneComponent, { read: ViewContainerRef })
-  
-  // @ViewChild(WhatsAppPhoneComponent, { read: ViewContainerRef })
-  // @ViewChild(MovilPhoneComponent, { read: ViewContainerRefMovil })
-  // @ViewChild(WhatsAppPhoneComponent, { read: ViewContainerRefWhats })
 
   public dynamicHost!: ViewContainerRef;
-  private ViewContainerRefHome!: ComponentRef<HomePhoneComponent>;
-  private ViewContainerRefMovil!: ComponentRef<MovilPhoneComponent>;
-  private ViewContainerRefWhats!: ComponentRef<WhatsAppPhoneComponent>;
+  private ViewContainerRefPhone!: ComponentRef<PhoneComponent>;
 
   public phoneIndex!: number;
 
@@ -64,8 +55,8 @@ export class AddContactComponent {
   }
 
   removePhone(i: number) {
-    if (this.ViewContainerRefHome) {
-      this.ViewContainerRefHome.destroy();
+    if (this.ViewContainerRefPhone) {
+      this.ViewContainerRefPhone.destroy();
     }
     // this.phones.removeAt(i);
   }
@@ -88,35 +79,12 @@ export class AddContactComponent {
 
   addPhone(type: string) {
 
-    switch (type) {
-      case 'home':
-        this.ViewContainerRefHome = this.dynamicHost.createComponent(HomePhoneComponent);
-        const componentIndexH = this.dynamicHost.indexOf(this.ViewContainerRefHome.hostView);
-        (this.ViewContainerRefHome.instance as HomePhoneComponent).phoneIndex =
-          componentIndexH + 2;
-            
-        break;
-    
-        case 'movil':
-          this.ViewContainerRefMovil = this.dynamicHost.createComponent(MovilPhoneComponent);
-          const componentIndexM = this.dynamicHost.indexOf(this.ViewContainerRefHome.hostView);
-          (this.ViewContainerRefMovil.instance as MovilPhoneComponent).phoneIndex =
+          this.ViewContainerRefPhone = this.dynamicHost.createComponent(PhoneComponent);
+          const componentIndexM = this.dynamicHost.indexOf(this.ViewContainerRefPhone.hostView);
+          (this.ViewContainerRefPhone.instance as PhoneComponent).phoneIndex =
             componentIndexM + 2;
               
-        break;
     
-        case 'whatsapp':
-
-        this.ViewContainerRefWhats = this.dynamicHost.createComponent(WhatsAppPhoneComponent);
-        const componentIndexW = this.dynamicHost.indexOf(this.ViewContainerRefHome.hostView);
-        (this.ViewContainerRefWhats.instance as WhatsAppPhoneComponent).phoneIndex =
-          componentIndexW + 2;
-
-        break;
-    
-      default:
-        break;
-    }
     console.log(type);
 
 
