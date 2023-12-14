@@ -1,6 +1,14 @@
-import { Component, ComponentRef, EventEmitter, Output, ViewChild, ViewContainerRef } from '@angular/core';
+import {
+  Component,
+  ComponentRef,
+  EventEmitter,
+  Output,
+  ViewChild,
+  ViewContainerRef,
+} from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PhoneComponent } from '../../components/home-phone/phone.component';
+import { ContactsService } from 'src/app/services/contacts.service';
 
 @Component({
   selector: 'app-add-contact',
@@ -9,13 +17,10 @@ import { PhoneComponent } from '../../components/home-phone/phone.component';
 })
 export class AddContactComponent {
   @ViewChild(PhoneComponent, { read: ViewContainerRef })
-
-
   public dynamicHost!: ViewContainerRef;
   private ViewContainerRefPhone!: ComponentRef<PhoneComponent>;
 
   public phoneIndex!: number;
-
 
   contacs: number = 0;
   @Output() addConcatEvent = new EventEmitter<void>();
@@ -24,7 +29,7 @@ export class AddContactComponent {
   tags: string[] = [];
   loading = false;
   options = 'add-contact'; //PARA USAR EL MISMO FORMULARIO
-  phones =[]
+  phones = [];
   types = ['home', 'movil', 'whatsapp'];
 
   contactForm: FormGroup = this.fb.group({
@@ -40,7 +45,10 @@ export class AddContactComponent {
     addTags: [,],
     contactPhones: this.fb.array([]),
   });
-  constructor(private fb: FormBuilder) {}
+  constructor(
+    private fb: FormBuilder,
+    private contactsService: ContactsService
+  ) {}
 
   ngOnInit(): void {
     this.tags = JSON.parse(localStorage.getItem('tags')!);
@@ -78,13 +86,14 @@ export class AddContactComponent {
   }
 
   addPhone(type: string) {
+    this.ViewContainerRefPhone =
+      this.dynamicHost.createComponent(PhoneComponent);
+    const componentIndexM = this.dynamicHost.indexOf(
+      this.ViewContainerRefPhone.hostView
+    );
+    (this.ViewContainerRefPhone.instance as PhoneComponent).phoneIndex =
+      componentIndexM + 2;
 
-          this.ViewContainerRefPhone = this.dynamicHost.createComponent(PhoneComponent);
-          const componentIndexM = this.dynamicHost.indexOf(this.ViewContainerRefPhone.hostView);
-          (this.ViewContainerRefPhone.instance as PhoneComponent).phoneIndex =
-            componentIndexM + 2;
-              
-    
     console.log(type);
   }
 
@@ -122,16 +131,26 @@ export class AddContactComponent {
   }
 
   saveContact() {
-    this.contactForm.value.contactTags=this.selectedTags
-console.log(this.contactForm.value);
-
     this.loading = true;
+    this.contactForm.value.contactTags = this.selectedTags;
+    console.log(this.contactForm.value);
+
     console.log(this.validateForm());
     if (this.validateForm() === true) {
+      this.contactsService.addConcat(this.contactForm.value).subscribe({
+        next: (value) => {
+          alert('Contacto agregado');
+        },
+        complete: () => {
+          this.loading = false;
+        },
+      });
       console.log(this.contactForm.value);
       console.log('entro');
     } else {
       alert('No cumple con los requisitos');
+      this.loading = false;
+
     }
   }
 

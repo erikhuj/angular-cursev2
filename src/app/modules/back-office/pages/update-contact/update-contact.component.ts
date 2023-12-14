@@ -2,6 +2,7 @@ import { Component, ComponentRef, EventEmitter, Output, ViewChild, ViewContainer
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { PhoneComponent } from '../../components/home-phone/phone.component';
+import { ContactsService } from 'src/app/services/contacts.service';
 
 @Component({
   selector: 'app-update-contact',
@@ -48,7 +49,8 @@ export class UpdateContactComponent {
   });
 contact:any=this.router.getCurrentNavigation()?.extras.state?.['contact'];
 
-  constructor(private fb: FormBuilder, private router: Router) {}
+  constructor(private fb: FormBuilder, private router: Router,     private contactsService: ContactsService
+    ) {}
 
   ngOnInit(): void {
     this.tags = JSON.parse(localStorage.getItem('tags')!);
@@ -146,16 +148,31 @@ contact:any=this.router.getCurrentNavigation()?.extras.state?.['contact'];
   }
 
   saveContact() {
+
+    this.loading = true;
     this.contactForm.value.contactTags=this.selectedTags
 console.log(this.contactForm.value);
 
-    this.loading = true;
     console.log(this.validateForm());
-    if (this.validateForm() === true) {
+    if (this.validateForm() === true && this.contact!==undefined) {
+      
+      this.contactsService.updateConcat(this.contactForm.value,this.contact.contactId).subscribe({
+        next: (value) => {
+          console.log(value);
+          
+          alert('Contacto actualizado');
+
+        },
+        complete: () => {
+          this.loading = false;
+        },
+      })
       console.log(this.contactForm.value);
       console.log('entro');
     } else {
       alert('No cumple con los requisitos');
+      this.loading = false;
+
     }
   }
 

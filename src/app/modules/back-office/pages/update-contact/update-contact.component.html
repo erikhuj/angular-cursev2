@@ -1,3 +1,4 @@
+<app-loading *ngIf="loading"></app-loading>
 
 <form [formGroup]="contactForm">
     <div class="form-row row">
@@ -115,9 +116,6 @@
     </div>
 
     <button type="submit" class="btn btn-primary m-5" (click)="saveContact()">
-        AGREGAR CONTACTO
+        MODIFICAR CONTACTO
     </button>
 </form>
-
-
-{{contact | json}}
