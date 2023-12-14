@@ -7,6 +7,7 @@ import { LoginComponent } from './pages/login/login.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { NavButtonsComponent } from './components/nav-buttons/nav-buttons.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { LoadingComponent } from 'src/app/components/loading/loading.component';
 
 
 @NgModule({
@@ -14,7 +15,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     LayoutComponent,
     LoginComponent,
     RegisterComponent,
-    NavButtonsComponent
+    NavButtonsComponent,
+    LoadingComponent
   ],
   imports: [
     CommonModule,

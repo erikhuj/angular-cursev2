@@ -19,8 +19,10 @@ export class GlobalInterceptor implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    const bearerOnLocalstorage = localStorage.getItem('bearerToken');
-
+    let bearerOnLocalstorage = localStorage.getItem('bearerToken');
+if (bearerOnLocalstorage===null) {
+  bearerOnLocalstorage='12345678at'
+}
     const newReq = req.clone({
       headers: this.headers.set(
         'Authorization',

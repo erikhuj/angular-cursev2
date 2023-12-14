@@ -1,24 +1,25 @@
+<app-loading *ngIf="loading"></app-loading>
 
 <form [formGroup]="registerForm" class="container-fluid">
     
     <div class="mb-3">
         <label  class="form-label">{{photoFrom|uppercase}}</label>
-        <input formControlName="photo" type="email" class="form-control" placeholder="{{photoFrom}}" />
+        <input formControlName="{{userPhoto}}" type="email" class="form-control" placeholder="{{photoFrom}}" />
     </div>
 
     <div class="mb-3">
         <label  class="form-label">{{nameFrom|uppercase}}</label>
-        <input formArrayName="name" type="email" class="form-control" placeholder="{{nameFrom}}" />
+        <input formControlName="{{userName}}" type="text" class="form-control" placeholder="{{nameFrom}}" />
     </div>
 
     <div class="mb-3">
         <label  class="form-label">{{emailFrom|uppercase}}</label>
-        <input formControlName="email" type="email" class="form-control" placeholder="{{emailFrom}}" />
+        <input formControlName="{{userEmail}}" type="text" class="form-control" placeholder="{{emailFrom}}" />
     </div>
 
     <div class="mb-3">
         <label  class="form-label">{{passwordFrom|uppercase}}</label>
-        <input  formControlName="password" type="email" class="form-control" placeholder="{{passwordFrom}}" />
+        <input  formControlName="{{userPassword}}" type="text" class="form-control" placeholder="{{passwordFrom}}" />
     </div>
 
     <a class="btn btn-primary" (click)="resgister()">resgister</a>
