@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { ContactsService } from 'src/app/services/contacts.service';
 
 @Component({
   selector: 'app-home-phone',
@@ -12,12 +13,13 @@ export class HomePhoneComponent implements OnInit {
   @Input() phoneControl!: FormControl;
   @Input() phoneGroup!: FormGroup;
   
-  constructor() { }
+  constructor(private contactsService:ContactsService) { }
 
   ngOnInit(): void {
   }
 
   deletePhone(){
+    this.contactsService.notifyDynamicDeleteComponent();
    console.log("deletePhone");
   }
 }

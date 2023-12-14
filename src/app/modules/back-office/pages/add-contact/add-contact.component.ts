@@ -56,7 +56,16 @@ export class AddContactComponent {
     private contactsService: ContactsService
   ) {}
 
+
+  setUpLisenner() {
+    this.contactsService.getSubjectDynamicComponent().subscribe({
+      next: (value) => {
+        console.log(value);
+      },
+    })
+  }
   ngOnInit(): void {
+    this.setUpLisenner()
     this.tags = JSON.parse(localStorage.getItem('tags')!);
   }
 

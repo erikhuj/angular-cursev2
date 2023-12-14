@@ -1,4 +1,17 @@
-import { Component, ComponentRef, EventEmitter, Output, ViewChild, ViewContainerRef } from '@angular/core';
+import {
+  ApplicationRef,
+  Component,
+  ComponentFactoryResolver,
+  ComponentRef,
+  ElementRef,
+  EventEmitter,
+  Injector,
+  Output,
+  Renderer2,
+  ViewChild,
+  ViewContainerRef,
+  ViewRef,
+} from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ContactsService } from 'src/app/services/contacts.service';
@@ -9,21 +22,17 @@ import { WhatsAppPhoneComponent } from '../../components/whats-app-phone/whats-a
 @Component({
   selector: 'app-update-contact',
   templateUrl: './update-contact.component.html',
-  styleUrls: ['./update-contact.component.css']
+  styleUrls: ['./update-contact.component.css'],
 })
 export class UpdateContactComponent {
-  @ViewChild(HomePhoneComponent, { read: ViewContainerRef })
-
-
+  @ViewChild('phone', { read: ViewContainerRef })
   public dynamicHost!: ViewContainerRef;
-  private ViewContainerRefHome!: ComponentRef<HomePhoneComponent>;
-  private ViewContainerRefMovil!: ComponentRef<MovilPhoneComponent>;
-  private ViewContainerRefWhats!: ComponentRef<WhatsAppPhoneComponent>;
+  private ViewContainerRef!: ElementRef<'phone'>;
 
   public phoneIndex!: number;
+  dynamicID: string = 'test';
 
-  phones =[]
-
+  phones = [];
 
   contacs: number = 0;
   @Output() addConcatEvent = new EventEmitter<void>();
@@ -47,21 +56,30 @@ export class UpdateContactComponent {
     addTags: [,],
     contactPhones: this.fb.array([]),
   });
-contact:any=this.router.getCurrentNavigation()?.extras.state?.['contact'];
+  contact: any = this.router.getCurrentNavigation()?.extras.state?.['contact'];
 
-  constructor(private fb: FormBuilder, private router: Router,     private contactsService: ContactsService
-    ) {}
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private contactsService: ContactsService,
+
+    private eRef: ElementRef,
+    private vc: ViewContainerRef,
+    private injector: Injector,
+    private resolver: ComponentFactoryResolver,
+    private render: Renderer2,
+    private app: ApplicationRef
+  ) {}
 
   ngOnInit(): void {
     this.tags = JSON.parse(localStorage.getItem('tags')!);
-  this.setCurrentValues();
+    this.setCurrentValues();
   }
 
   setCurrentValues() {
-console.log(this.contact.contactTags);
-console.log(this.contact.contactEmails);
-console.log(this.contact.contactPhones);
-
+    console.log(this.contact.contactTags);
+    console.log(this.contact.contactEmails);
+    console.log(this.contact.contactPhones);
 
     this.contactForm.patchValue({
       contactPhoto: this.contact.contactPhoto,
@@ -74,7 +92,7 @@ console.log(this.contact.contactPhones);
       contactNotes: this.contact.contactNotes,
       contactTags: this.contact.contactTags,
       contactPhones: this.contact.contactPhones,
-    })
+    });
   }
 
   get emails(): FormArray {
@@ -87,7 +105,7 @@ console.log(this.contact.contactPhones);
 
   removePhone(i: number) {
     // if (this.ViewContainerRefPhone) {
-      // this.ViewContainerRefPhone.destroy();
+    // this.ViewContainerRefPhone.destroy();
     // }
     // this.phones.removeAt(i);
   }
@@ -108,38 +126,18 @@ console.log(this.contact.contactPhones);
     );
   }
 
+  getDynamicComponent(type: string) {
+    // if (document.querySelector('#test')!==null) {
+     
+    // document.querySelector('#test')
+    // let factory = this.resolver.resolveComponentFactory(HomePhoneComponent);
+    // let node = this.render.createElement('div');
+    // let html = document.querySelector('#test').appendChild(node);
+    // let componetRef = factory.create(this.injector, [],node);
+    // componetRef.instance.phoneIndex = this.phoneIndex;
+    // this.app.attachView(componetRef.hostView); 
+     }
   addPhone(type: string) {
-
-
-    switch (type) {
-      case 'home':
-        this.ViewContainerRefHome = this.dynamicHost.createComponent(HomePhoneComponent);
-        const componentIndexH = this.dynamicHost.indexOf(this.ViewContainerRefHome.hostView);
-        (this.ViewContainerRefHome.instance as HomePhoneComponent).phoneIndex =
-          componentIndexH + 2;
-            
-        break;
-    
-        case 'movil':
-          this.ViewContainerRefMovil = this.dynamicHost.createComponent(MovilPhoneComponent);
-          const componentIndexM = this.dynamicHost.indexOf(this.ViewContainerRefHome.hostView);
-          (this.ViewContainerRefMovil.instance as MovilPhoneComponent).phoneIndex =
-            componentIndexM + 2;
-              
-        break;
-    
-        case 'whatsapp':
-
-        this.ViewContainerRefWhats = this.dynamicHost.createComponent(WhatsAppPhoneComponent);
-        const componentIndexW = this.dynamicHost.indexOf(this.ViewContainerRefHome.hostView);
-        (this.ViewContainerRefWhats.instance as WhatsAppPhoneComponent).phoneIndex =
-          componentIndexW + 2;
-
-        break;
-    
-      default:
-        break;
-    }
   }
 
   addTags() {
@@ -176,36 +174,33 @@ console.log(this.contact.contactPhones);
   }
 
   saveContact() {
-
     this.loading = true;
-    this.contactForm.value.contactTags=this.selectedTags
-console.log(this.contactForm.value);
+    this.contactForm.value.contactTags = this.selectedTags;
+    console.log(this.contactForm.value);
 
     console.log(this.validateForm());
-    if (this.validateForm() === true && this.contact!==undefined) {
-      
-      this.contactsService.updateConcat(this.contactForm.value,this.contact.contactId).subscribe({
-        next: (value) => {
-          console.log(value);
-          
-          alert('Contacto actualizado');
+    if (this.validateForm() === true && this.contact !== undefined) {
+      this.contactsService
+        .updateConcat(this.contactForm.value, this.contact.contactId)
+        .subscribe({
+          next: (value) => {
+            console.log(value);
 
-        },
-        complete: () => {
-          this.loading = false;
-        },
-      })
+            alert('Contacto actualizado');
+          },
+          complete: () => {
+            this.loading = false;
+          },
+        });
       console.log(this.contactForm.value);
       console.log('entro');
     } else {
       alert('No cumple con los requisitos');
       this.loading = false;
-
     }
   }
 
   validateForm(): boolean {
     return this.contactForm.valid;
   }
-
 }
