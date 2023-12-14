@@ -17,9 +17,10 @@ export class UserService {
     );
   }
 
-  update(data: any): Observable<any> {
+  update(data: any, id: number): Observable<any> {
+    const contactId= id
     return this.httpclient.put(
-      'https://my.api.mockaroo.com/sa/exercise/users/update/123',
+      'https://my.api.mockaroo.com/sa/exercise/users/update/'+contactId,
       data,
       
     );

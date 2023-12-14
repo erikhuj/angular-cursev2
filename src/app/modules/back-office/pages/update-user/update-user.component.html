@@ -21,6 +21,11 @@
         <label  class="form-label">{{passwordFrom|uppercase}}</label>
         <input  formControlName="{{userPassword}}" type="text" class="form-control" placeholder="{{passwordFrom}}" />
     </div>
+    
+    <div class="mb-3">
+        <label  class="form-label">{{fullNameFrom|uppercase}}</label>
+        <input  formControlName="{{userFullName}}" type="text" class="form-control" placeholder="{{fullNameFrom}}" />
+    </div>
 
     <a class="btn btn-primary" (click)="updateUser()">resgister</a>
 </form>

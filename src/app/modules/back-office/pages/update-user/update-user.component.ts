@@ -14,38 +14,56 @@ export class UpdateUserComponent implements OnInit {
   nameFrom: string = 'name';
   emailFrom: string = 'email';
   passwordFrom: string = 'password';
+  fullNameFrom: string = 'fullName';
 
   @Input() photo: string = '';
   @Input() name: string = '';
   @Input() email: string = '';
   @Input() password: string = '';
+  @Input() fullName: string = '';
 
   userPhoto = 'userPhoto';
   userName = 'userName';
   userEmail = 'userEmail';
   userPassword = 'userPassword';
+  userFullName='userFullName'
 
+
+  
   registerForm: FormGroup = this.fb.group({
     userPhoto: [this.photo],
     userName: [this.name],
     userEmail: [this.email],
     userPassword: [this.password],
+    userFullName: [this.fullName],
   });
 
-  constructor(private fb: FormBuilder, private userService: UserService) {}
+  constructor(private fb: FormBuilder, private userService: UserService) {
+    
+    
+    
+    
+    
 
-  ngOnInit(): void {
+
     const user = localStorage.getItem('user');
     if (user !== null) {
       const userJson = JSON.parse(user);
       console.log(userJson);
       
-      this.photo = userJson.userPhoto;
-      this.name = userJson.userName;
-      this.email = userJson.userEmail;
-      this.password = userJson.userPassword;
-    }
+      this.registerForm.patchValue({
+        userPhoto: userJson.userPhoto,
+        userName: userJson.userName,
+        userEmail: userJson.userEmail,
+        userPassword: userJson.userPassword,
+        userFullName: userJson.userFullName
+      })
+         }
     console.log(this.registerForm.value);
+    
+  }
+
+  ngOnInit(): void {
     
   }
 
@@ -53,20 +71,25 @@ export class UpdateUserComponent implements OnInit {
   updateUser() {
     this.loading = true;
     console.log(this.registerForm.value);
+    const user = localStorage.getItem('user');
+    if (user !== null) {
+      const userJson = JSON.parse(user);
 
-    this.userService.create(this.registerForm.value).subscribe({
+    this.userService.update(this.registerForm.value,userJson.userId).subscribe({
       next: (res) => {
         console.log(res);
 
         if (res.succeed === true) {
-          alert('resgistrado correctamente');
+          alert('modificado correctamente');
+          this.registerForm.value.userId=userJson.userId
+          localStorage.setItem('user', JSON.stringify(this.registerForm.value));
         } else {
-          alert('NO SE PUDO REGISTRAR');
+          alert('NO SE PUDO MODIFICAR');
         }
       },
       complete: () => {
         this.loading = false;
       },
     });
-  }
+    }}
 }
