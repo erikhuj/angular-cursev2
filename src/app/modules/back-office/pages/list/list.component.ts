@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ContactsService } from 'src/app/services/contacts.service';
 
 @Component({
@@ -7,6 +7,9 @@ import { ContactsService } from 'src/app/services/contacts.service';
   styleUrls: ['./list.component.css']
 })
 export class ListComponent {
+  @Input() currentContact = 0;
+  // @Output() currentContactChance = new EventEmitter<any>();
+
   loading = false;
 
   //to list
@@ -24,12 +27,10 @@ export class ListComponent {
   //totalContactsSum (suma y resta de contactos)
   totalContactsSum = 0;
 
-  currentContact = 0;
-
   currentPage = 1;
   totalPages = 0;
 
-  constructor(private contactsService: ContactsService) {}
+  constructor(private contacsService: ContactsService) {}
 
   ngOnInit(): void {
     //start list
@@ -51,14 +52,18 @@ export class ListComponent {
       limit: this.limit,
       searchTerm: this.searchTerm,
     };
-    this.contactsService.getConcats(body).subscribe({
+    this.contacsService.getConcats(body).subscribe({
       next: (data) => {
         console.log(data);
         //calculate totalContacts
-        if (this.totalContacts === 0) {
-          this.totalContacts = data.result.count;
+        this.totalContacts = data.result.count;
+
+        if (this.currentContact===0) {
+        this.currentContact = this.totalContacts;
+        localStorage.setItem('currentContact', JSON.stringify(this.currentContact));
+
         }
-        this.currentContact = this.totalContacts + this.totalContactsSum;
+
         //compatare if my current page is greater than totalContacts
         if (
           (data.result.list.length * this.offset) / this.limit + this.limit >
@@ -88,6 +93,10 @@ export class ListComponent {
         console.log('currentContact', this.currentContact);
         console.log('currentPage', this.currentPage);
         console.log('totalPages', this.totalPages);
+        console.log('currentContact', this.currentContact);
+      },
+      error: (error) => {
+        console.log(error);
       },
       complete: () => {
         this.loading = false;
@@ -99,12 +108,14 @@ export class ListComponent {
     this.loading = true;
 
     if (confirm('¿Desea borrar el contacto?')) {
-      this.contactsService.deleteConcat(contactId).subscribe({
+      this.contacsService.deleteConcat(contactId).subscribe({
         next: (data) => {
-          this.totalContactsSum--;
+          this.currentContact=this.currentContact-1;
+          localStorage.setItem('currentContact', JSON.stringify(this.currentContact));
           alert('Contacto eliminado');
           console.log(data);
         },
+
         complete: () => {
           this.loading = false;
           this.getContacts(1, '');
@@ -112,5 +123,6 @@ export class ListComponent {
       });
     }
   }
+
 
 }

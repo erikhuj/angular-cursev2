@@ -12,9 +12,23 @@ export class NavBarComponent implements OnInit {
   @Input() email: string = "erik@gmai.com";
   @Input() contactsNumber: number = 0;
 
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService) { 
+
+  }
 
   ngOnInit(): void {
+    const currentContacts = localStorage.getItem('currentContact')
+
+    console.log(currentContacts);
+    console.log(typeof(Number(currentContacts)));
+    
+    if (currentContacts==null) {
+      this.contactsNumber=0
+    }else{
+      
+      this.contactsNumber=Number(currentContacts)
+    }
+    
     this.getUserInformation()
   }
 
