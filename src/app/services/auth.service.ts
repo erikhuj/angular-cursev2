@@ -6,6 +6,10 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class AuthService {
+  logOut() {
+    return this.httpclient.delete(
+      'https://my.api.mockaroo.com/sa/exercise/auth/logout',
+    );  }
 
   constructor(private httpclient: HttpClient) { }
 
