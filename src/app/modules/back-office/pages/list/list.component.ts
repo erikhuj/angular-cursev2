@@ -98,9 +98,6 @@ export class ListComponent {
         console.log('totalPages', this.totalPages);
         console.log('currentContact', this.currentContact);
       },
-      error: (error) => {
-        console.log(error);
-      },
       complete: () => {
         this.loading = false;
       },

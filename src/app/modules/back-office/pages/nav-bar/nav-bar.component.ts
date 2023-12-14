@@ -57,11 +57,8 @@ export class NavBarComponent implements OnInit {
       this.authService.logOut().subscribe({
         next: (data) => {
           console.log(data);
+          localStorage.clear();
           this.router.navigateByUrl('/login');
-        },
-        error: (error) => {
-          console.log(error);
-          alert('Error al cerrar sesion');
         },
       });
     }
