@@ -1,24 +1,24 @@
 
-<form class="container-fluid">
+<form [formGroup]="registerForm" class="container-fluid">
     
     <div class="mb-3">
-        <label  class="form-label">{{photo|uppercase}}</label>
-        <input type="email" class="form-control" placeholder="{{photo}}" />
+        <label  class="form-label">{{photoFrom|uppercase}}</label>
+        <input formControlName="photo" type="email" class="form-control" placeholder="{{photoFrom}}" />
     </div>
 
     <div class="mb-3">
-        <label  class="form-label">{{name|uppercase}}</label>
-        <input type="email" class="form-control" placeholder="{{name}}" />
+        <label  class="form-label">{{nameFrom|uppercase}}</label>
+        <input formArrayName="name" type="email" class="form-control" placeholder="{{nameFrom}}" />
     </div>
 
     <div class="mb-3">
-        <label  class="form-label">{{email|uppercase}}</label>
-        <input type="email" class="form-control" placeholder="{{email}}" />
+        <label  class="form-label">{{emailFrom|uppercase}}</label>
+        <input formControlName="email" type="email" class="form-control" placeholder="{{emailFrom}}" />
     </div>
 
     <div class="mb-3">
-        <label  class="form-label">{{password|uppercase}}</label>
-        <input type="email" class="form-control" placeholder="{{password}}" />
+        <label  class="form-label">{{passwordFrom|uppercase}}</label>
+        <input  formControlName="password" type="email" class="form-control" placeholder="{{passwordFrom}}" />
     </div>
 
     <a class="btn btn-primary" (click)="resgister()">resgister</a>

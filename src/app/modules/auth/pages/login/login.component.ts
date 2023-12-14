@@ -1,37 +1,41 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.css'],
 })
 export class LoginComponent implements OnInit {
 
+
   constructor(
     private router: Router,
-private authService: AuthService,
-  ) { }
+    private authService: AuthService,
+    private fb: FormBuilder,
+  ) {}
+  loginForm: FormGroup = this.fb.group({
+    email: [''],
+    password: [''],
+  });
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
   login() {
-    console.log("login");
-    this.authService.logIn('','423').subscribe({
-      next: (res) => {
-        console.log(res);
-      },
-      error: (err) => {
-        console.log(err);
-      },
-        
-      complete: () => {
-        console.log("complete");
-        
-      }
+    console.log('login');
 
+    this.authService.logIn(this.loginForm.value.email, this.loginForm.value.password).subscribe({
+      next: (res) => {
+        if (res.succeed===true) {
+          console.log('login');
+          this.router.navigateByUrl('/back-office/list');
+          
+        }else{
+          alert('email o contraseña incorrectos');
+        }
+        
+      },
     });
-    // this.router.navigateByUrl('/back-office/list');
   }
 }

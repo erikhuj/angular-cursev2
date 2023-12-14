@@ -54,8 +54,9 @@
         <div class="form-group col">
             <label>Etiquetas</label>
             <div *ngIf="tags.length !== 0">
-                <select formControlName="contactTags" class="form-select" aria-label="Default select example" (change)="addTagsToSend()">
-                    <option *ngFor="let tag of tags; let i = index" [value]="tag" >
+                <select formControlName="contactTags" class="form-select" aria-label="Default select example"
+                    (change)="addTagsToSend()">
+                    <option *ngFor="let tag of tags; let i = index" [value]="tag">
                         {{ tag }}
                     </option>
                 </select>
@@ -72,9 +73,9 @@
         <div class="form-group col">
             <label>teléfonos (CASA,MOVIL,WHATSAPP)</label>
             <div formArrayName="contactPhones">
-                
-                    <app-phone></app-phone>
-                
+
+                <app-phone></app-phone>
+
                 <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"
                     tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                     <div class="modal-dialog">
@@ -105,8 +106,8 @@
                         </div>
                     </div>
                 </div>
-                <a class="btn btn-primary m-5"  data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                    AGREGAR 
+                <a class="btn btn-primary m-5" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                    AGREGAR
                 </a>
             </div>
         </div>
