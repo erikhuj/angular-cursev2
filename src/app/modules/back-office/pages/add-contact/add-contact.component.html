@@ -55,14 +55,12 @@
     <div class="form-row row">
         <div class="form-group col">
             <label>Etiquetas</label>
-            <div *ngIf="tags.length !== 0">
                 <select formControlName="contactTags" class="form-select" aria-label="Default select example"
                     (change)="addTagsToSend()">
                     <option *ngFor="let tag of tags; let i = index" [value]="tag">
                         {{ tag }}
                     </option>
                 </select>
-            </div>
             <input formControlName="addTags" type="text" class="form-control" placeholder="es desarrollador del cis" />
             <button class="btn btn-primary m-3" (click)="addTags()">
                 agregar tag
@@ -70,13 +68,16 @@
             <button class="btn btn-secondary m-3" (click)="removeTag(this.contactForm.value.contactTags)">
                 Borrar el valor seleccionado
             </button>
-            tags:{{ selectedTags | json}}
+            tags:{{ selectedTags | json }}
         </div>
         <div class="form-group col">
             <label>teléfonos (CASA,MOVIL,WHATSAPP)</label>
             <div formArrayName="contactPhones">
-
-                <app-phone></app-phone>
+                <div>
+                    <app-home-phone></app-home-phone>
+                    <app-movil-phone></app-movil-phone>
+                    <app-whats-app-phone></app-whats-app-phone>
+                </div>
 
                 <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"
                     tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">

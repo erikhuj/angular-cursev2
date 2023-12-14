@@ -1,8 +1,10 @@
 import { Component, ComponentRef, EventEmitter, Output, ViewChild, ViewContainerRef } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { PhoneComponent } from '../../components/home-phone/phone.component';
 import { ContactsService } from 'src/app/services/contacts.service';
+import { HomePhoneComponent } from '../../components/home-phone/home-phone.component';
+import { MovilPhoneComponent } from '../../components/movil-phone/movil-phone.component';
+import { WhatsAppPhoneComponent } from '../../components/whats-app-phone/whats-app-phone.component';
 
 @Component({
   selector: 'app-update-contact',
@@ -10,18 +12,17 @@ import { ContactsService } from 'src/app/services/contacts.service';
   styleUrls: ['./update-contact.component.css']
 })
 export class UpdateContactComponent {
- 
-    
-    
-  
-
-  @ViewChild(PhoneComponent, { read: ViewContainerRef })
+  @ViewChild(HomePhoneComponent, { read: ViewContainerRef })
 
 
   public dynamicHost!: ViewContainerRef;
-  private ViewContainerRefPhone!: ComponentRef<PhoneComponent>;
+  private ViewContainerRefHome!: ComponentRef<HomePhoneComponent>;
+  private ViewContainerRefMovil!: ComponentRef<MovilPhoneComponent>;
+  private ViewContainerRefWhats!: ComponentRef<WhatsAppPhoneComponent>;
 
   public phoneIndex!: number;
+
+  phones =[]
 
 
   contacs: number = 0;
@@ -31,7 +32,6 @@ export class UpdateContactComponent {
   tags: string[] = [];
   loading = false;
   options = 'add-contact'; //PARA USAR EL MISMO FORMULARIO
-  phones =[]
   types = ['home', 'movil', 'whatsapp'];
 
   contactForm: FormGroup = this.fb.group({
@@ -58,6 +58,11 @@ contact:any=this.router.getCurrentNavigation()?.extras.state?.['contact'];
   }
 
   setCurrentValues() {
+console.log(this.contact.contactTags);
+console.log(this.contact.contactEmails);
+console.log(this.contact.contactPhones);
+
+
     this.contactForm.patchValue({
       contactPhoto: this.contact.contactPhoto,
       contactFirstName: this.contact.contactFirstName,
@@ -81,9 +86,9 @@ contact:any=this.router.getCurrentNavigation()?.extras.state?.['contact'];
   }
 
   removePhone(i: number) {
-    if (this.ViewContainerRefPhone) {
-      this.ViewContainerRefPhone.destroy();
-    }
+    // if (this.ViewContainerRefPhone) {
+      // this.ViewContainerRefPhone.destroy();
+    // }
     // this.phones.removeAt(i);
   }
 
@@ -105,13 +110,36 @@ contact:any=this.router.getCurrentNavigation()?.extras.state?.['contact'];
 
   addPhone(type: string) {
 
-          this.ViewContainerRefPhone = this.dynamicHost.createComponent(PhoneComponent);
-          const componentIndexM = this.dynamicHost.indexOf(this.ViewContainerRefPhone.hostView);
-          (this.ViewContainerRefPhone.instance as PhoneComponent).phoneIndex =
+
+    switch (type) {
+      case 'home':
+        this.ViewContainerRefHome = this.dynamicHost.createComponent(HomePhoneComponent);
+        const componentIndexH = this.dynamicHost.indexOf(this.ViewContainerRefHome.hostView);
+        (this.ViewContainerRefHome.instance as HomePhoneComponent).phoneIndex =
+          componentIndexH + 2;
+            
+        break;
+    
+        case 'movil':
+          this.ViewContainerRefMovil = this.dynamicHost.createComponent(MovilPhoneComponent);
+          const componentIndexM = this.dynamicHost.indexOf(this.ViewContainerRefHome.hostView);
+          (this.ViewContainerRefMovil.instance as MovilPhoneComponent).phoneIndex =
             componentIndexM + 2;
               
+        break;
     
-    console.log(type);
+        case 'whatsapp':
+
+        this.ViewContainerRefWhats = this.dynamicHost.createComponent(WhatsAppPhoneComponent);
+        const componentIndexW = this.dynamicHost.indexOf(this.ViewContainerRefHome.hostView);
+        (this.ViewContainerRefWhats.instance as WhatsAppPhoneComponent).phoneIndex =
+          componentIndexW + 2;
+
+        break;
+    
+      default:
+        break;
+    }
   }
 
   addTags() {
