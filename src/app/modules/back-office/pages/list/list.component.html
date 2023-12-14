@@ -1,31 +1,81 @@
-<a class="btn btn-primary m-3" routerLink="/back-office/add-contact">+</a>
+<app-loading *ngIf="loading"></app-loading>
+<table class="table container-fluid">
+  <thead>
+    <tr>
+      <th scope="col">#id</th>
+      <th scope="col">NOMBRE</th>
+      <th scope="col">COMPANIA</th>
+      <th scope="col">FECHA NACIMIENTO</th>
+      <th scope="col">NOTAS</th>
+      <th scope="col">NOTAS</th>
+      <th scope="col">BORRAR</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let contact of contacts">
+      <th scope="row">{{ offset + contact["contactId"] }}</th>
+      <td>
+        {{ contact["contactFirstName"] + " " + contact["contactLastName"] }}
+      </td>
+      <td>{{ contact["contactCompany"] }}</td>
+      <td>{{ contact["contactBirthday"] }}</td>
+      <td>{{ contact["contactNotes"] }}</td>
+      <td><img src="{{ contact['contactPhoto'] }}" alt="" /></td>
+      <td>
+        <button
+          type="button"
+          class="btn btn-danger"
+          (click)="deleteContact(contact['contactId'])"
+        >
+          BORRAR
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>
 
-<table class="table">
-    <thead>
-      <tr>
-        <th scope="col">#</th>
-        <th scope="col">First</th>
-        <th scope="col">Last</th>
-        <th scope="col">Handle</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <th scope="row">1</th>
-        <td>Mark</td>
-        <td>Otto</td>
-        <td>@mdo</td>
-      </tr>
-      <tr>
-        <th scope="row">2</th>
-        <td>Jacob</td>
-        <td>Thornton</td>
-        <td>@fat</td>
-      </tr>
-      <tr>
-        <th scope="row">3</th>
-        <td colspan="2">Larry the Bird</td>
-        <td>@twitter</td>
-      </tr>
-    </tbody>
-  </table>
+<nav aria-label="Page navigation example">
+  <ul class="pagination">
+    <li class="page-item">
+      <a
+        class="page-link"
+        aria-label="Previous"
+        (click)="getContacts(1, searchTerm)"
+      >
+        <span aria-hidden="true">&laquo;</span>
+      </a>
+    </li>
+    <li class="page-item">
+      <a
+        class="page-link"
+        *ngIf="currentPage - 1 > 0"
+        (click)="getContacts(currentPage - 1, searchTerm)"
+        >{{ currentPage - 1 }}</a
+      >
+    </li>
+    <li class="page-item">
+      <a
+        class="page-link active"
+        (click)="getContacts(currentPage, searchTerm)"
+        >{{ currentPage }}</a
+      >
+    </li>
+    <li class="page-item">
+      <a
+        class="page-link"
+        *ngIf="currentPage + 1 <= totalPages"
+        (click)="getContacts(currentPage + 1, searchTerm)"
+        >{{ currentPage + 1 }}</a
+      >
+    </li>
+    <li class="page-item">
+      <a
+        class="page-link"
+        aria-label="Next"
+        (click)="getContacts(totalPages, searchTerm)"
+      >
+        <span aria-hidden="true">&raquo;</span>
+      </a>
+    </li>
+  </ul>
+</nav>

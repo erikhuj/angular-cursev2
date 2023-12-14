@@ -16,4 +16,8 @@ export class UserService {
       
     );
   }
+
+  getOne(id: number): Observable<any> {
+    return this.httpclient.get('https://my.api.mockaroo.com/sa/exercise/users/profile/'+id);
+  }
 }

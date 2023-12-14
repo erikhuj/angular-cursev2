@@ -29,6 +29,8 @@ export class LoginComponent implements OnInit {
     this.authService.logIn(this.loginForm.value.email, this.loginForm.value.password).subscribe({
       next: (res) => {
         if (res.succeed === true) {
+          console.log(res);
+          
           this.router.navigateByUrl('/back-office/list');
         } else {
           alert('email o contraseña incorrectos');

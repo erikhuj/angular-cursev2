@@ -11,6 +11,7 @@ import { NavBarComponent } from './pages/nav-bar/nav-bar.component';
 import { AboutComponent } from './pages/about/about.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PhoneComponent } from './components/home-phone/phone.component';
+import { LoadingComponent } from 'src/app/components/loading/loading.component';
 
 
 @NgModule({
@@ -22,7 +23,8 @@ import { PhoneComponent } from './components/home-phone/phone.component';
     UpdateContactComponent,
     NavBarComponent,
     AboutComponent,
-    PhoneComponent
+    PhoneComponent,
+    LoadingComponent
   ],
   imports: [
     CommonModule,
