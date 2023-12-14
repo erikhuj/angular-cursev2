@@ -7,7 +7,8 @@ import { LoginComponent } from './pages/login/login.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { NavButtonsComponent } from './components/nav-buttons/nav-buttons.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { LoadingComponent } from 'src/app/components/loading/loading.component';
+import { LoadingComponent } from 'src/app/common/shared/components/loading/loading.component';
+import { SharedModule } from 'src/app/common/shared/shared.module';
 
 
 @NgModule({
@@ -16,13 +17,13 @@ import { LoadingComponent } from 'src/app/components/loading/loading.component';
     LoginComponent,
     RegisterComponent,
     NavButtonsComponent,
-    LoadingComponent
   ],
   imports: [
     CommonModule,
     AuthRoutingModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    SharedModule
   ]
 })
 export class AuthModule { }

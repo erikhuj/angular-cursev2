@@ -1,5 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ContactsService } from 'src/app/services/contacts.service';
+import { NavBarComponent } from '../nav-bar/nav-bar.component';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-list',
@@ -30,7 +32,8 @@ export class ListComponent {
   currentPage = 1;
   totalPages = 0;
 
-  constructor(private contacsService: ContactsService) {}
+  constructor(private contacsService: ContactsService,
+    userService: UserService) {}
 
   ngOnInit(): void {
     //start list

@@ -7,11 +7,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { GlobalInterceptor } from './interceptors/global.interceptors';
-import { LoadingComponent } from './components/loading/loading.component';
+import { SharedModule } from './common/shared/shared.module';
 @NgModule({
   declarations: [
     AppComponent,
-    LoadingComponent
   ],
   imports: [
     BrowserModule,
@@ -22,6 +21,7 @@ import { LoadingComponent } from './components/loading/loading.component';
     HttpClientModule,
     ReactiveFormsModule,
     FormsModule,
+    SharedModule
     
       ],
   providers: [{

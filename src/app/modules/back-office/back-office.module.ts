@@ -11,7 +11,7 @@ import { NavBarComponent } from './pages/nav-bar/nav-bar.component';
 import { AboutComponent } from './pages/about/about.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PhoneComponent } from './components/home-phone/phone.component';
-import { LoadingComponent } from 'src/app/components/loading/loading.component';
+import { SharedModule } from 'src/app/common/shared/shared.module';
 
 
 @NgModule({
@@ -24,13 +24,14 @@ import { LoadingComponent } from 'src/app/components/loading/loading.component';
     NavBarComponent,
     AboutComponent,
     PhoneComponent,
-    LoadingComponent
   ],
   imports: [
     CommonModule,
     BackOfficeRoutingModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    SharedModule
+
   ]
 })
 export class BackOfficeModule { }
