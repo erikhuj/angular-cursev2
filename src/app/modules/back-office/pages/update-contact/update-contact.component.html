@@ -1,1 +1,123 @@
-<p>update-contact works!</p>
+
+<form [formGroup]="contactForm">
+    <div class="form-row row">
+        <div class="form-group col">
+            <label>fotografía</label>
+            <input formControlName="contactPhoto" type="text" class="form-control" placeholder="base64" />
+        </div>
+        <div class="form-group col">
+            <label>nombre</label>
+            <input formControlName="contactFirstName" type="text" class="form-control" placeholder="JUAN" />
+        </div>
+        <div class="form-group col">
+            <label>apellido</label>
+            <input formControlName="contactLastName" type="text" class="form-control" placeholder="LOPEZ" />
+        </div>
+        <div class="form-group col">
+            <label>empresa</label>
+            <input formControlName="contactCompany" type="text" class="form-control"
+                placeholder="CENTRO DE INTELIGENCIA EN SALUD" />
+        </div>
+    </div>
+    <div class="form-row row">
+        <div class="form-group col">
+            <label>correos</label>
+            <div formArrayName="contactEmails">
+                <div *ngFor="let email of emails.controls; let i = index">
+                    <div [formGroupName]="i">
+                        <input formControlName="email" type="email" class="form-control"
+                            placeholder="email@email.com" />
+                    </div>
+                    <button (click)="removeEmail(i)">Remove</button>
+                </div>
+            </div>
+            <p>
+                <button type="button" (click)="addEmail()">Add</button>
+            </p>
+        </div>
+        <div class="form-group col">
+            <label>fecha de nacimiento</label>
+            <input formControlName="contactBirthday" type="date" class="form-control"
+                placeholder="fecha de nacimiento" />
+        </div>
+        <div class="form-group col">
+            <label>alias</label>
+            <input formControlName="contactAlias" type="text" class="form-control" placeholder="alias"
+                placeholder="JuanL" />
+        </div>
+        <div class="form-group col">
+            <label>Notas</label>
+            <input formControlName="contactNotes" type="text" class="form-control"
+                placeholder="es desarrollador del cis" />
+        </div>
+    </div>
+    <div class="form-row row">
+        <div class="form-group col">
+            <label>Etiquetas</label>
+            <div *ngIf="tags.length !== 0">
+                <select formControlName="contactTags" class="form-select" aria-label="Default select example"
+                    (change)="addTagsToSend()">
+                    <option *ngFor="let tag of tags; let i = index" [value]="tag">
+                        {{ tag }}
+                    </option>
+                </select>
+            </div>
+            <input formControlName="addTags" type="text" class="form-control" placeholder="es desarrollador del cis" />
+            <button class="btn btn-primary m-3" (click)="addTags()">
+                agregar tag
+            </button>
+            <button class="btn btn-secondary m-3" (click)="removeTag(this.contactForm.value.contactTags)">
+                Borrar el valor seleccionado
+            </button>
+            tags:{{ selectedTags | json}}
+        </div>
+        <div class="form-group col">
+            <label>teléfonos (CASA,MOVIL,WHATSAPP)</label>
+            <div formArrayName="contactPhones">
+
+                <app-phone></app-phone>
+
+                <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"
+                    tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="staticBackdropLabel">
+                                    SELECCIONA UNA OPCION
+                                </h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-check form-check-inline">
+                                    <a class="btn btn-primary" (click)="addPhone(types[0])">CASA</a>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <a class="btn btn-primary" (click)="addPhone(types[1])">MOVIL</a>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <a class="btn btn-primary" (click)="addPhone(types[2])">WHATSAPP</a>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                    CERRAR
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <a class="btn btn-primary m-5" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                    AGREGAR
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary m-5" (click)="saveContact()">
+        AGREGAR CONTACTO
+    </button>
+</form>
+
+
+{{contact | json}}

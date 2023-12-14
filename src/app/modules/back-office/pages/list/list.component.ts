@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ContactsService } from 'src/app/services/contacts.service';
 import { NavBarComponent } from '../nav-bar/nav-bar.component';
 import { UserService } from 'src/app/services/user.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-list',
@@ -33,7 +34,9 @@ export class ListComponent {
   totalPages = 0;
 
   constructor(private contacsService: ContactsService,
-    userService: UserService) {}
+    private userService: UserService,
+    private router: Router
+    ) {}
 
   ngOnInit(): void {
     //start list
@@ -124,5 +127,12 @@ export class ListComponent {
     }
   }
 
+  updateContact(contact: any) {
+    this.router.navigate(['/back-office/update-contact/'] ,{
+      state: {
+        contact: contact
+      }
+    });
+  }
 
 }

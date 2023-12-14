@@ -30,7 +30,8 @@ import { SharedModule } from 'src/app/common/shared/shared.module';
     BackOfficeRoutingModule,
     ReactiveFormsModule,
     FormsModule,
-    SharedModule
+    SharedModule,
+
 
   ]
 })

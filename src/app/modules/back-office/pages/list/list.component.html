@@ -9,6 +9,7 @@
       <th scope="col">NOTAS</th>
       <th scope="col">NOTAS</th>
       <th scope="col">BORRAR</th>
+      <th scope="col">MODIFICAR</th>
     </tr>
   </thead>
   <tbody>
@@ -28,6 +29,15 @@
           (click)="deleteContact(contact['contactId'])"
         >
           BORRAR
+        </button>
+      </td>
+      <td>
+        <button
+          type="button"
+          class="btn btn-warning"
+          (click)="updateContact(contact)"
+        >
+          MODIFICAR
         </button>
       </td>
     </tr>

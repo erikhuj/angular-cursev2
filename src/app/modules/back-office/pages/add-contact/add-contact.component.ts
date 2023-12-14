@@ -86,38 +86,6 @@ export class AddContactComponent {
               
     
     console.log(type);
-
-
-    
-// ViewContainerRefMovil
-// ViewContainerRefWhats
-    //   let validationsToSend = '';
-    //   const validatortsToHomePhone = '[0-9]{7}';
-    //   const validatortsToMovilPhone = '[0-9]{3}-[0-9]{7}';
-    //   const validatortsToWhatsappPhone = '[a-zA-Z,0-9]{3}-[0-9]{3}-[0-9]{7}';
-
-    //   switch (type) {
-    //     case 'home':
-    //       validationsToSend = validatortsToHomePhone;
-    //       break;
-
-    //     case 'movil':
-    //       validationsToSend = validatortsToMovilPhone;
-
-    //       break;
-
-    //     case 'whatsapp':
-    //       validationsToSend = validatortsToWhatsappPhone;
-    //       break;
-
-    //     default:
-    //       break;
-    //   }
-    //   this.phones.push(
-    //     this.fb.group({
-    //       phone: [, [Validators.required, Validators.pattern(validationsToSend)]],
-    //     })
-    //   );
   }
 
   addTags() {
